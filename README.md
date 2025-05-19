@@ -6,4 +6,5 @@ L'applicazione sarà in grado di riconoscere e registrare le targhe delle automo
 - Data di ingresso
 - Data di uscita
 - Prezzo da pagare
+
 I dati verranno registrati in un database sql, MySQL.
