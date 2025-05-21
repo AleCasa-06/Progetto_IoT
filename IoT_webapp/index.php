@@ -1,53 +1,39 @@
-<!DOCTYPE html>
-<html lang="it">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport">
-  <title>Scontrino Parcheggio</title>
-  <link rel="stylesheet" href="style/style.css">
-</head>
-    <body>
-        <div class="parking-ticket">
-            <h1>Parcheggio Casarotto-Venzo</h1>
-            
-            
-        </div>
-    </body>
-</html>
-
-
 <?php
 $conn = new mysqli("localhost", "root", "", "parcheggio"); 
 
-//mostra auto parcheggiate e elimina le uscite, max=100
-$stmt = $conn->query("SELECT * FROM auto WHERE Data_uscita = NULL "); 
-$st = $conn->query("SELECT * FROM auto WHERE NOT Data_uscita = NULL"); 
+// Mostra auto parcheggiate e elimina le uscite, max=100
+$stmt = $conn->query("SELECT * FROM automobili WHERE Data_uscita IS NULL"); 
+$st = $conn->query("SELECT * FROM automobili WHERE Data_uscita IS NOT NULL"); 
 
-$uscite = $st->fetch_all(MYSQL_ASSOC); 
+$uscite = $st->fetch_all(MYSQLI_ASSOC); // Prendi tutte le uscite
 
-for($i = 0; $i < count($uscite) ; $i++ ){
-    $targa = $uscite['targa']; 
-    $sl = $conn->query("DELETE FROM auto WHERE targa = '$targa'"); 
+// Elimina auto uscite
+if (!empty($uscite)) {
+    foreach ($uscite as $uscita) {
+        $targa = $uscita['targa']; 
+        $conn->query("DELETE FROM automobili WHERE targa = '$targa'"); 
+    }
+}
+
+// Salva auto parcheggiate
+$auto_parcheggiate = [];
+$postiOccupati = 0;
+
+while ($auto = $stmt->fetch_assoc()) {
+    if (!empty($auto['targa'])) {
+        $postiOccupati++;
+    }
+    // Usa chiave composta se vuoi, o array semplice:
+    $auto_parcheggiate[] = $auto;
 }
 
 
 
-$auto_parcheggiate = $stmt->fetch_all(MYSQL_ASSOC); 
-
-
-$postiOccupati = count($auto_parcheggiate); 
-
-for($i = 0; $i < $postiOccupati ; $i++ ){
-    echo "Targa: " . $auto_parcheggiate['targa']; 
-    echo "Ingresso: " . $auto_parcheggiate['Data_ingresso']; 
-    
-    echo "Posti liberi: " . (100 - $postiOccupati); 
+foreach ($auto_parcheggiate as $auto) {
+    echo "Targa: " . $auto['targa'] . "<br>"; 
+    echo "Ingresso: " . $auto['Data_ingresso'] . "<br><br>"; 
 }
 
-
-
-
-
-
-
+echo "Posti liberi: " . (100 - $postiOccupati) . "<br>";
+echo "Posti occupati: $postiOccupati";
 ?>
