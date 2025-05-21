@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Creato il: Mag 19, 2025 alle 09:59
+-- Creato il: Mag 21, 2025 alle 09:45
 -- Versione del server: 10.4.28-MariaDB
 -- Versione PHP: 8.2.4
 
@@ -32,9 +32,7 @@ USE `parcheggio`;
 CREATE TABLE `auto` (
   `targa` varchar(7) NOT NULL,
   `Data_ingresso` datetime NOT NULL,
-  `Data_uscita` datetime DEFAULT NULL,
-  `prezzo` int(11) NOT NULL,
-  `pagato` tinyint(1) NOT NULL
+  `Data_uscita` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
