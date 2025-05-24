@@ -31,13 +31,7 @@ if (!empty($uscite)) {
         $ore += $giorniExtra * 24;
 
         $costo = $ore * 1.5; 
-
-        // Inserisci i dati nella tabella 'auto_uscite'
-        $ins = $conn->query("INSERT INTO auto_uscite (targa, Data_ingresso, Data_uscita, Costo) 
-                            VALUES ('$targa', '{$uscita['Data_ingresso']}', '{$uscita['Data_uscita']}', '$costo')");
-        
-        // Elimina l'auto dalla tabella 'automobili'
-        $conn->query("DELETE FROM automobili WHERE targa = '$targa'"); 
+ 
     }
 }
 
